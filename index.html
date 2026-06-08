@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mauricio Aguilar — Ingeniero Frontend Senior</title>
+<title>Mauricio Aguilar — Ingeniero de software</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -358,9 +358,10 @@ section { padding: 100px 48px; }
   color: var(--ink3);
 }
 .stack-cat:first-child { margin-top: 0; }
+#stack > .reveal + .reveal { margin-top: 56px; }
 
-/* ── EXPERIENCE ──────────────────────────────────────────── */
-#experiencia { background: white; }
+/* ── MODALIDADES ─────────────────────────────────────────── */
+#modalidades { background: white; }
 .exp-grid { display: flex; flex-direction: column; gap: 0; margin-top: 64px; }
 .exp-item {
   display: grid; grid-template-columns: 200px 1fr;
@@ -569,7 +570,7 @@ footer {
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#stack">Stack</a></li>
-    <li><a href="#experiencia">Experiencia</a></li>
+    <li><a href="#modalidades">Modalidades</a></li>
     <li><a href="#impacto">Impacto</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>
@@ -581,8 +582,8 @@ footer {
   <div class="hero-left">
     <h1 class="hero-title">
       Ingeniero<br>
-      <span class="accent">Frontend</span><br>
-      <span class="line2">Senior</span>
+      de<br>
+      <span class="accent line2">software</span>
     </h1>
     <p class="hero-desc">
       Más de 10 años construyendo aplicaciones web y móviles de alto rendimiento. Especialista en React, microfrontends y arquitecturas escalables. He trabajado en productos de impacto como <strong>Aeroméxico</strong>.
@@ -801,80 +802,86 @@ footer {
   </div>
 </section>
 
-<!-- ── EXPERIENCIA ── -->
-<section id="experiencia">
+<!-- ── MODALIDADES ── -->
+<section id="modalidades">
   <div class="reveal">
-    <div class="section-label">Experiencia</div>
-    <h2 class="section-title">Trayectoria<br><span class="accent">comprobada</span></h2>
+    <div class="section-label">Modalidades</div>
+    <h2 class="section-title">Cómo podemos<br><span class="accent">trabajar juntos</span></h2>
+    <p class="section-sub">Elige el modelo de colaboración que mejor se adapte a tu equipo, tu presupuesto y la etapa de tu proyecto.</p>
   </div>
-  <div class="exp-grid">
-
-    <div class="exp-item reveal">
-      <div class="exp-date">2024 – 2025</div>
-      <div>
-        <div class="exp-company">Dicipa</div>
-        <div class="exp-role">Frontend React</div>
-        <div class="exp-desc">Desarrollo de nuevas funcionalidades, integración con APIs de negocio y optimización de interfaces de usuario. Mejora de rendimiento y experiencia de usuario.</div>
-        <div class="exp-tags">
-          <span class="exp-tag">React</span><span class="exp-tag">TypeScript</span>
-          <span class="exp-tag">API Integration</span><span class="exp-tag">UI Optimization</span>
-        </div>
-      </div>
+  <div class="services-grid reveal reveal-delay-1">
+    <div class="service-card">
+      <div class="sc-icon">📦</div>
+      <div class="sc-title">Proyecto cerrado</div>
+      <div class="sc-desc">Alcance, entregables y precio definidos desde el inicio. Ideal cuando ya tienes claro qué necesitas construir.</div>
+      <ul class="sc-list">
+        <li>Cotización y plan de trabajo</li>
+        <li>Hitos y entregas pactadas</li>
+        <li>Precio fijo sin sorpresas</li>
+        <li>Garantía post-entrega</li>
+      </ul>
+      <div class="sc-price">Cotización por alcance</div>
     </div>
-
-    <div class="exp-item reveal reveal-delay-1">
-      <div class="exp-date">2022 – 2024</div>
-      <div>
-        <div class="exp-company">Gonet — Aeroméxico</div>
-        <div class="exp-role">Frontend React Senior</div>
-        <div class="exp-desc">Proyecto de alto impacto para Aeroméxico. Implementé Google Wallet <em>antes de su lanzamiento oficial</em>, resolviendo la falta de documentación pública. Desarrollo móvil con React Native y integraciones críticas de negocio.</div>
-        <div class="exp-tags">
-          <span class="exp-tag">React</span><span class="exp-tag">React Native</span>
-          <span class="exp-tag">Google Wallet</span><span class="exp-tag">Aeroméxico</span>
-          <span class="exp-tag">Integraciones críticas</span>
-        </div>
-      </div>
+    <div class="service-card">
+      <div class="sc-icon">⏱️</div>
+      <div class="sc-title">Bolsa de horas</div>
+      <div class="sc-desc">Flexibilidad total para tareas cambiantes, soporte continuo o desarrollo iterativo sin amarrar un alcance rígido.</div>
+      <ul class="sc-list">
+        <li>Horas según tus prioridades</li>
+        <li>Reportes de avance semanales</li>
+        <li>Sin compromiso de largo plazo</li>
+        <li>Respuesta ágil a cambios</li>
+      </ul>
+      <div class="sc-price">Desde $1,500 MXN / hr</div>
     </div>
-
-    <div class="exp-item reveal reveal-delay-2">
-      <div class="exp-date">2019 – 2021</div>
-      <div>
-        <div class="exp-company">Vsys</div>
-        <div class="exp-role">Full Stack</div>
-        <div class="exp-desc">Desarrollo con arquitectura de microservicios, containerización con Docker y comunicación en tiempo real con WebSockets. Proyectos de gran escala con alta disponibilidad.</div>
-        <div class="exp-tags">
-          <span class="exp-tag">Microservicios</span><span class="exp-tag">Docker</span>
-          <span class="exp-tag">WebSockets</span><span class="exp-tag">Node.js</span>
-        </div>
-      </div>
+    <div class="service-card">
+      <div class="sc-icon">👥</div>
+      <div class="sc-title">Equipo aumentado</div>
+      <div class="sc-desc">Me integro a tu squad como un desarrollador más: dailies, code reviews, repos y procesos de tu equipo.</div>
+      <ul class="sc-list">
+        <li>Integración full-time o part-time</li>
+        <li>Trabajo dentro de tu stack y flujo</li>
+        <li>Comunicación directa con el equipo</li>
+        <li>Disponibilidad por mes</li>
+      </ul>
+      <div class="sc-price">Tarifa mensual / retainer</div>
     </div>
-
-    <div class="exp-item reveal">
-      <div class="exp-date">2018 – 2019</div>
-      <div>
-        <div class="exp-company">Prasyde</div>
-        <div class="exp-role">Frontend Developer</div>
-        <div class="exp-desc">Desarrollo y maquetación de interfaces web de alta fidelidad. Integración con APIs REST y enfoque en responsive design y accesibilidad.</div>
-        <div class="exp-tags">
-          <span class="exp-tag">HTML/CSS</span><span class="exp-tag">JavaScript</span>
-          <span class="exp-tag">REST APIs</span><span class="exp-tag">Responsive Design</span>
-        </div>
-      </div>
+    <div class="service-card">
+      <div class="sc-icon">🚀</div>
+      <div class="sc-title">MVP llave en mano</div>
+      <div class="sc-desc">De la idea al producto funcional. Diseño, desarrollo y despliegue de tu primera versión lista para usuarios reales.</div>
+      <ul class="sc-list">
+        <li>Definición de alcance del MVP</li>
+        <li>Desarrollo end-to-end</li>
+        <li>Despliegue y puesta en producción</li>
+        <li>Base lista para escalar</li>
+      </ul>
+      <div class="sc-price">Desde $35,000 MXN / proyecto</div>
     </div>
-
-    <div class="exp-item reveal reveal-delay-1">
-      <div class="exp-date">2013 – 2017</div>
-      <div>
-        <div class="exp-company">Charmer Publicity + Holomex</div>
-        <div class="exp-role">Full Stack Developer</div>
-        <div class="exp-desc">Desarrollo full-stack de sitios web, sistemas internos y gestión de servidores. Implementación de lógica de negocio, bases de datos y APIs de terceros. Inicio de carrera con amplia exposición a toda la pila tecnológica.</div>
-        <div class="exp-tags">
-          <span class="exp-tag">Full Stack</span><span class="exp-tag">PHP / Laravel</span>
-          <span class="exp-tag">MySQL</span><span class="exp-tag">Server Management</span>
-        </div>
-      </div>
+    <div class="service-card">
+      <div class="sc-icon">🩺</div>
+      <div class="sc-title">Soporte y mantenimiento</div>
+      <div class="sc-desc">Mantengo tu producto vivo: corrección de bugs, actualizaciones, mejoras de performance y nuevas features bajo demanda.</div>
+      <ul class="sc-list">
+        <li>Retainer mensual flexible</li>
+        <li>Atención a incidencias</li>
+        <li>Actualizaciones de dependencias</li>
+        <li>Mejoras incrementales</li>
+      </ul>
+      <div class="sc-price">Plan mensual a la medida</div>
     </div>
-
+    <div class="service-card">
+      <div class="sc-icon">🎓</div>
+      <div class="sc-title">Mentoring y consultoría</div>
+      <div class="sc-desc">Acompaño a tu equipo en decisiones técnicas, arquitectura y buenas prácticas para que avancen con más velocidad y calidad.</div>
+      <ul class="sc-list">
+        <li>Sesiones 1:1 o grupales</li>
+        <li>Revisión de arquitectura</li>
+        <li>Definición de estándares</li>
+        <li>Onboarding técnico</li>
+      </ul>
+      <div class="sc-price">Desde $2,000 MXN / hr</div>
+    </div>
   </div>
 </section>
 
@@ -987,7 +994,7 @@ footer {
   <div class="footer-text">© 2025 Mauricio Aguilar Juárez · Ingeniero en TIC · CDMX</div>
   <div class="footer-links">
     <a href="#servicios">Servicios</a>
-    <a href="#experiencia">Experiencia</a>
+    <a href="#modalidades">Modalidades</a>
     <a href="#contacto">Contacto</a>
   </div>
 </footer>
