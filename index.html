@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mauricio Aguilar — Ingeniero Frontend Senior</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ─────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --ink:     #0d1b3e;
+  --ink2:    #2c4070;
+  --ink3:    #6b82a8;
+  --paper:   #f2f5fb;
+  --paper2:  #e4ebf7;
+  --paper3:  #d4dff0;
+  --lime:    #c8deff;
+  --lime2:   #90b8f8;
+  --blue:    #1a56db;
+  --blue2:   #1040b0;
+  --warm:    #90b8f8;
+  --border:  rgba(13,27,62,0.1);
+  --r:       12px;
+}
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ─────────────────────────────────────────────── */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--ink);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  transition: transform 0.15s ease, background 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9998;
+  transition: transform 0.4s cubic-bezier(.16,1,.3,1), width 0.3s, height 0.3s, border-color 0.2s;
+  transform: translate(-50%, -50%);
+}
+body:has(a:hover) .cursor, body:has(button:hover) .cursor { transform: translate(-50%,-50%) scale(0); }
+body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width:60px; height:60px; background:rgba(26,86,219,0.1); border-color:var(--blue); }
+
+/* ── NAV ────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px;
+  transition: background 0.3s, backdrop-filter 0.3s;
+}
+nav.scrolled {
+  background: rgba(242,245,251,0.93);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--blue); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500;
+  color: var(--ink2); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--blue); }
+.nav-cta {
+  background: var(--ink); color: var(--paper);
+  padding: 10px 22px; border-radius: 100px;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none; transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: var(--blue); transform: translateY(-1px); }
+
+/* ── HERO ───────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 120px 48px 80px;
+  gap: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 40%, rgba(26,86,219,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 70%, rgba(144,184,248,0.12) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--lime); color: var(--ink);
+  padding: 6px 14px; border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.5px; margin-bottom: 24px;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px;
+  background: var(--ink); border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(1.3);} }
+
+.hero-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(48px, 5.5vw, 78px);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero-title .accent { color: var(--blue); font-style: italic; }
+.hero-title .line2 { display: block; }
+.hero-desc {
+  font-size: 17px; line-height: 1.7;
+  color: var(--ink2); max-width: 480px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+.btn-primary {
+  background: var(--blue); color: white;
+  padding: 14px 30px; border-radius: 100px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 2px solid var(--blue);
+}
+.btn-primary:hover { background: var(--blue2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(26,86,219,0.35); }
+.btn-secondary {
+  background: transparent; color: var(--ink);
+  padding: 14px 30px; border-radius: 100px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 2px solid var(--ink);
+}
+.btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+
+.hero-right {
+  position: relative;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero-card {
+  background: var(--ink);
+  border-radius: 24px;
+  padding: 40px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.hero-card::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  background: var(--lime);
+  border-radius: 50%;
+  opacity: 0.15;
+}
+.hero-card::after {
+  content: '';
+  position: absolute; bottom: -30px; left: -30px;
+  width: 120px; height: 120px;
+  background: var(--blue);
+  border-radius: 50%;
+  opacity: 0.2;
+}
+.hero-years {
+  font-family: 'Fraunces', serif;
+  font-size: 80px; font-weight: 900;
+  line-height: 1; color: var(--lime);
+  letter-spacing: -3px;
+}
+.hero-years-label { font-size: 16px; color: rgba(255,255,255,0.6); margin-bottom: 32px; }
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; position: relative; z-index: 1; }
+.hero-stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 32px; font-weight: 700; color: white; line-height: 1;
+}
+.hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+.hero-logos {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.hero-logo-tag {
+  background: var(--paper2); border: 1px solid var(--border);
+  border-radius: 100px; padding: 6px 14px;
+  font-size: 12px; font-weight: 600; color: var(--ink2);
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ── MARQUEE ─────────────────────────────────────────────── */
+.marquee-wrap {
+  background: var(--ink); padding: 18px 0;
+  overflow: hidden; border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.marquee-track {
+  display: flex; gap: 0;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 32px;
+  font-size: 13px; font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+}
+.marquee-item strong { color: var(--lime); font-weight: 600; }
+.marquee-dot { width: 5px; height: 5px; background: var(--lime); border-radius: 50%; flex-shrink: 0; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── SECTION BASE ─────────────────────────────────────────── */
+section { padding: 100px 48px; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 16px;
+}
+.section-label::before {
+  content: ''; width: 24px; height: 2px; background: var(--blue);
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 800; letter-spacing: -1.5px;
+  line-height: 1.1; margin-bottom: 16px;
+}
+.section-title .accent { color: var(--blue); font-style: italic; }
+.section-sub { font-size: 17px; color: var(--ink2); line-height: 1.6; max-width: 560px; }
+
+/* ── SERVICES ─────────────────────────────────────────────── */
+#servicios { background: white; }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 64px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.service-card {
+  background: white;
+  padding: 40px 36px;
+  position: relative;
+  transition: background 0.25s;
+  cursor: default;
+}
+.service-card:hover { background: var(--ink); }
+.service-card:hover .sc-title,
+.service-card:hover .sc-desc,
+.service-card:hover .sc-list li { color: rgba(255,255,255,0.9); }
+.service-card:hover .sc-list li::before { background: var(--lime); }
+.service-card:hover .sc-icon { background: var(--lime); color: var(--ink); }
+.service-card:hover .sc-price { color: var(--lime); }
+.sc-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--paper2); display: flex; align-items: center;
+  justify-content: center; font-size: 22px; margin-bottom: 24px;
+  transition: all 0.25s;
+}
+.sc-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -0.5px; margin-bottom: 12px;
+  transition: color 0.25s;
+}
+.sc-desc {
+  font-size: 14px; color: var(--ink2); line-height: 1.65;
+  margin-bottom: 24px; transition: color 0.25s;
+}
+.sc-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+.sc-list li {
+  font-size: 13px; color: var(--ink2); display: flex; align-items: center; gap: 8px;
+  transition: color 0.25s;
+}
+.sc-list li::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--blue); flex-shrink: 0; transition: background 0.25s;
+}
+.sc-price {
+  font-family: 'Fraunces', serif;
+  font-size: 13px; font-weight: 600; color: var(--ink3);
+  transition: color 0.25s;
+}
+
+/* ── STACK ───────────────────────────────────────────────── */
+#stack { background: var(--paper); }
+.stack-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 64px; flex-wrap: wrap; }
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.stack-pill {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  padding: 12px 20px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 600;
+  color: var(--ink2);
+  transition: all 0.2s;
+}
+.stack-pill:hover {
+  background: var(--ink); color: white;
+  border-color: var(--ink); transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13,27,62,0.12);
+}
+.stack-pill:hover .sp-dot { background: var(--lime); }
+.sp-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--blue); flex-shrink: 0;
+  transition: background 0.2s;
+}
+.stack-cat {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700;
+  letter-spacing: -0.5px; margin-bottom: 20px; margin-top: 40px;
+  color: var(--ink3);
+}
+.stack-cat:first-child { margin-top: 0; }
+
+/* ── EXPERIENCE ──────────────────────────────────────────── */
+#experiencia { background: white; }
+.exp-grid { display: flex; flex-direction: column; gap: 0; margin-top: 64px; }
+.exp-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 40px; padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.exp-item:last-child { border-bottom: none; }
+.exp-date {
+  font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink3); padding-top: 4px;
+}
+.exp-company {
+  font-family: 'Fraunces', serif;
+  font-size: 24px; font-weight: 700;
+  letter-spacing: -0.5px; margin-bottom: 4px;
+}
+.exp-role {
+  display: inline-block;
+  background: var(--lime); color: var(--ink);
+  padding: 3px 12px; border-radius: 100px;
+  font-size: 12px; font-weight: 700;
+  margin-bottom: 14px;
+}
+.exp-desc {
+  font-size: 15px; color: var(--ink2); line-height: 1.65;
+}
+.exp-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.exp-tag {
+  background: var(--paper2); border: 1px solid var(--border);
+  border-radius: 100px; padding: 4px 12px;
+  font-size: 11px; font-weight: 600; color: var(--ink2);
+}
+
+/* ── IMPACT ───────────────────────────────────────────────── */
+#impacto {
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+#impacto::before {
+  content: '';
+  position: absolute; top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: var(--blue);
+  border-radius: 50%; opacity: 0.08;
+}
+#impacto::after {
+  content: '';
+  position: absolute; bottom: -80px; left: -80px;
+  width: 400px; height: 400px;
+  background: var(--lime);
+  border-radius: 50%; opacity: 0.06;
+}
+#impacto .section-label { color: var(--lime); }
+#impacto .section-label::before { background: var(--lime); }
+#impacto .section-title { color: white; }
+#impacto .section-sub { color: rgba(255,255,255,0.5); }
+.impact-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 24px; margin-top: 64px;
+}
+.impact-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 36px;
+  position: relative; overflow: hidden;
+  transition: all 0.25s;
+}
+.impact-card:hover {
+  background: rgba(26,86,219,0.12);
+  border-color: rgba(26,86,219,0.38);
+  transform: translateY(-3px);
+}
+.impact-icon { font-size: 28px; margin-bottom: 20px; }
+.impact-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700; color: white;
+  margin-bottom: 10px;
+}
+.impact-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+/* ── CONTACT ────────────────────────────────────────────── */
+#contacto { background: var(--paper); }
+.contact-wrap {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.contact-big {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 900; letter-spacing: -2px;
+  line-height: 1.05;
+}
+.contact-big .accent { color: var(--blue); font-style: italic; }
+.contact-channels { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
+.contact-link {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 24px;
+  background: white; border: 1.5px solid var(--border);
+  border-radius: var(--r); text-decoration: none;
+  color: var(--ink); font-weight: 600; font-size: 15px;
+  transition: all 0.2s;
+}
+.contact-link:hover { border-color: var(--blue); transform: translateX(6px); box-shadow: 0 4px 20px rgba(26,86,219,0.12); }
+.contact-link-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.contact-form-side { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fgroup { display: flex; flex-direction: column; gap: 6px; }
+.fgroup.full { grid-column: 1/-1; }
+.fgroup label {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--ink3);
+}
+.fgroup input, .fgroup select, .fgroup textarea {
+  background: white; border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--ink); outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.fgroup input:focus, .fgroup select:focus, .fgroup textarea:focus { border-color: var(--blue); }
+.fgroup input::placeholder, .fgroup textarea::placeholder { color: var(--ink3); }
+.fgroup textarea { resize: vertical; min-height: 120px; }
+.form-submit {
+  background: var(--blue); color: white;
+  border: none; border-radius: 100px;
+  padding: 16px 36px; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  align-self: flex-start;
+}
+.form-submit:hover { background: var(--blue2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(26,86,219,0.35); }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer {
+  background: var(--ink); color: white;
+  padding: 40px 48px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+}
+.footer-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700; color: white;
+  text-decoration: none;
+}
+.footer-logo span { color: var(--lime); }
+.footer-text { font-size: 13px; color: rgba(255,255,255,0.4); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--lime); }
+
+/* ── REVEAL ─────────────────────────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── MOBILE ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 48px; }
+  .hero-right { display: none; }
+  section { padding: 72px 24px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .exp-item { grid-template-columns: 1fr; gap: 8px; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 48px; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+}
+
+/* ── TOAST ───────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--ink); color: white;
+  padding: 14px 24px; border-radius: 100px;
+  font-size: 14px; font-weight: 600;
+  z-index: 999; transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+  display: flex; align-items: center; gap: 10px;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast-icon { font-size: 18px; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="tel:+525614501807" class="nav-logo">56 1450 1807<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#experiencia">Experiencia</a></li>
+    <li><a href="#impacto">Impacto</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Hablemos →</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="inicio">
+  <div class="hero-left">
+    <h1 class="hero-title">
+      Ingeniero<br>
+      <span class="accent">Frontend</span><br>
+      <span class="line2">Senior</span>
+    </h1>
+    <p class="hero-desc">
+      Más de 10 años construyendo aplicaciones web y móviles de alto rendimiento. Especialista en React, microfrontends y arquitecturas escalables. He trabajado en productos de impacto como <strong>Aeroméxico</strong>.
+    </p>
+    <div class="hero-actions">
+      <a href="#servicios" class="btn-primary">Ver servicios ↓</a>
+      <a href="#contacto" class="btn-secondary">Contáctame</a>
+    </div>
+    <div class="hero-logos">
+      <span class="hero-logo-tag">React</span>
+      <span class="hero-logo-tag">Next.js</span>
+      <span class="hero-logo-tag">TypeScript</span>
+      <span class="hero-logo-tag">Node.js</span>
+      <span class="hero-logo-tag">React Native</span>
+      <span class="hero-logo-tag">Docker</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hero-years">10<span style="font-size:40px">+</span></div>
+      <div class="hero-years-label">años de experiencia</div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">15+</div>
+          <div class="hero-stat-label">Proyectos entregados</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">5+</div>
+          <div class="hero-stat-label">Empresas</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">React</div>
+          <div class="hero-stat-label">Stack principal</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">IA</div>
+          <div class="hero-stat-label">Dev aumentado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <!-- Se duplica para loop infinito -->
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>React</strong> Experto</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Next.js</strong> SSR/SSG</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>TypeScript</strong> Avanzado</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Microfrontends</strong> Module Federation</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>React Native</strong> Apps Móviles</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Node.js</strong> APIs REST</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Docker</strong> Containerización</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>IA</strong> Dev Aumentado</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Aeroméxico</strong> Proyecto de alto impacto</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Google Wallet</strong> Integración pionera</div>
+    <!-- Duplicado -->
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>React</strong> Experto</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Next.js</strong> SSR/SSG</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>TypeScript</strong> Avanzado</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Microfrontends</strong> Module Federation</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>React Native</strong> Apps Móviles</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Node.js</strong> APIs REST</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Docker</strong> Containerización</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>IA</strong> Dev Aumentado</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Aeroméxico</strong> Proyecto de alto impacto</div>
+    <div class="marquee-item"><span class="marquee-dot"></span><strong>Google Wallet</strong> Integración pionera</div>
+  </div>
+</div>
+
+<!-- ── SERVICIOS ── -->
+<section id="servicios">
+  <div class="reveal">
+    <div class="section-label">Servicios</div>
+    <h2 class="section-title">¿En qué te<br><span class="accent">puedo ayudar?</span></h2>
+    <p class="section-sub">Soluciones de desarrollo frontend y full-stack para startups, agencias y empresas que necesitan calidad de producción real.</p>
+  </div>
+  <div class="services-grid reveal reveal-delay-1">
+    <div class="service-card">
+      <div class="sc-icon">⚛️</div>
+      <div class="sc-title">Apps Web con React</div>
+      <div class="sc-desc">Desarrollo de aplicaciones web complejas, SPAs y plataformas escalables usando React, Next.js y el ecosistema moderno de JavaScript.</div>
+      <ul class="sc-list">
+        <li>React + TypeScript + Zustand/Redux</li>
+        <li>Next.js (SSR, SSG, App Router)</li>
+        <li>Remix v3</li>
+        <li>TailwindCSS + Material UI</li>
+        <li>Integración con APIs REST/GraphQL</li>
+      </ul>
+      <div class="sc-price">Desde $20,000 MXN / proyecto</div>
+    </div>
+    <div class="service-card">
+      <div class="sc-icon">📱</div>
+      <div class="sc-title">Apps Móviles</div>
+      <div class="sc-desc">Aplicaciones iOS y Android con React Native. Código compartido, experiencia nativa, publicación en App Store y Google Play.</div>
+      <ul class="sc-list">
+        <li>React Native cross-platform</li>
+        <li>Apache Cordova</li>
+        <li>Integraciones nativas (Wallet, cámara, GPS)</li>
+        <li>Publicación en tiendas</li>
+        <li>Push notifications</li>
+      </ul>
+      <div class="sc-price">Desde $35,000 MXN / proyecto</div>
+    </div>
+    <div class="service-card">
+      <div class="sc-icon">🏗️</div>
+      <div class="sc-title">Arquitectura Escalable</div>
+      <div class="sc-desc">Diseño e implementación de microfrontends y microservicios para equipos grandes que necesitan escalar sin romper producción.</div>
+      <ul class="sc-list">
+        <li>Module Federation / Single-SPA</li>
+        <li>Microservicios con Node.js / Go</li>
+        <li>Docker + CI/CD</li>
+        <li>AWS / GCP / Azure</li>
+        <li>Auditoría de performance</li>
+      </ul>
+      <div class="sc-price">Desde $50,000 MXN / proyecto</div>
+    </div>
+    <div class="service-card">
+      <div class="sc-icon">🤖</div>
+      <div class="sc-title">Desarrollo con IA</div>
+      <div class="sc-desc">Aceleración de proyectos mediante IA: generación de código, debugging asistido, documentación automática e integración de APIs de IA.</div>
+      <ul class="sc-list">
+        <li>Integración de OpenAI / Claude APIs</li>
+        <li>Automatización de flujos con IA</li>
+        <li>Prompts engineering para dev</li>
+        <li>Refactorización asistida</li>
+        <li>Generación de tests automáticos</li>
+      </ul>
+      <div class="sc-price">Consultoría desde $2,000 MXN / hr</div>
+    </div>
+    <div class="service-card">
+      <div class="sc-icon">🔧</div>
+      <div class="sc-title">Consultoría Técnica</div>
+      <div class="sc-desc">Revisión de arquitectura, auditorías de código, resolución de problemas de performance y mentoring para equipos de desarrollo.</div>
+      <ul class="sc-list">
+        <li>Code review profundo</li>
+        <li>Auditoría de performance</li>
+        <li>Migración de tecnologías</li>
+        <li>Onboarding de equipos</li>
+        <li>Definición de estándares técnicos</li>
+      </ul>
+      <div class="sc-price">Desde $1,500 MXN / hr</div>
+    </div>
+    <div class="service-card">
+      <div class="sc-icon">⚡</div>
+      <div class="sc-title">Rescate de Proyectos</div>
+      <div class="sc-desc">¿Tu proyecto está roto, atrasado o en deuda técnica? Entro, diagnostico y lo estabilizo. Especialista en entregas bajo presión.</div>
+      <ul class="sc-list">
+        <li>Diagnóstico técnico en 48h</li>
+        <li>Estabilización urgente</li>
+        <li>Reducción de deuda técnica</li>
+        <li>Entregas bajo deadline</li>
+        <li>Documentación y handoff</li>
+      </ul>
+      <div class="sc-price">Desde $25,000 MXN / proyecto</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STACK ── -->
+<section id="stack">
+  <div class="stack-header">
+    <div class="reveal">
+      <div class="section-label">Stack Tecnológico</div>
+      <h2 class="section-title">Herramientas<br>que <span class="accent">domino</span></h2>
+    </div>
+    <p class="section-sub reveal reveal-delay-1">+10 años acumulando experiencia real en proyectos de producción con estas tecnologías.</p>
+  </div>
+
+  <div class="reveal">
+    <div class="stack-cat">Frontend</div>
+    <div class="stack-grid">
+      <div class="stack-pill"><span class="sp-dot"></span>React</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Next.js</div>
+      <div class="stack-pill"><span class="sp-dot"></span>TypeScript</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Remix v3</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Redux</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Zustand</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Vue.js</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Angular</div>
+      <div class="stack-pill"><span class="sp-dot"></span>TailwindCSS</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Material UI</div>
+      <div class="stack-pill"><span class="sp-dot"></span>SASS</div>
+      <div class="stack-pill"><span class="sp-dot"></span>Vite / Webpack</div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-delay-1">
+    <div class="stack-cat">Backend & Mobile</div>
+    <div class="stack-grid">
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>Node.js</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>Express.js</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>React Native</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>PHP / Laravel</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>Java</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>Go</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>REST APIs</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#4d96e8"></span>WebSockets</div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-delay-2">
+    <div class="stack-cat">DevOps & Cloud</div>
+    <div class="stack-grid">
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>Docker</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>AWS</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>GCP</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>Azure</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>Firebase</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>Git / Gitflow</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>MySQL / PostgreSQL</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>MongoDB</div>
+      <div class="stack-pill"><span class="sp-dot" style="background:#1040b0"></span>Redis</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCIA ── -->
+<section id="experiencia">
+  <div class="reveal">
+    <div class="section-label">Experiencia</div>
+    <h2 class="section-title">Trayectoria<br><span class="accent">comprobada</span></h2>
+  </div>
+  <div class="exp-grid">
+
+    <div class="exp-item reveal">
+      <div class="exp-date">2024 – 2025</div>
+      <div>
+        <div class="exp-company">Dicipa</div>
+        <div class="exp-role">Frontend React</div>
+        <div class="exp-desc">Desarrollo de nuevas funcionalidades, integración con APIs de negocio y optimización de interfaces de usuario. Mejora de rendimiento y experiencia de usuario.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">React</span><span class="exp-tag">TypeScript</span>
+          <span class="exp-tag">API Integration</span><span class="exp-tag">UI Optimization</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-date">2022 – 2024</div>
+      <div>
+        <div class="exp-company">Gonet — Aeroméxico</div>
+        <div class="exp-role">Frontend React Senior</div>
+        <div class="exp-desc">Proyecto de alto impacto para Aeroméxico. Implementé Google Wallet <em>antes de su lanzamiento oficial</em>, resolviendo la falta de documentación pública. Desarrollo móvil con React Native y integraciones críticas de negocio.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">React</span><span class="exp-tag">React Native</span>
+          <span class="exp-tag">Google Wallet</span><span class="exp-tag">Aeroméxico</span>
+          <span class="exp-tag">Integraciones críticas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-2">
+      <div class="exp-date">2019 – 2021</div>
+      <div>
+        <div class="exp-company">Vsys</div>
+        <div class="exp-role">Full Stack</div>
+        <div class="exp-desc">Desarrollo con arquitectura de microservicios, containerización con Docker y comunicación en tiempo real con WebSockets. Proyectos de gran escala con alta disponibilidad.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Microservicios</span><span class="exp-tag">Docker</span>
+          <span class="exp-tag">WebSockets</span><span class="exp-tag">Node.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">2018 – 2019</div>
+      <div>
+        <div class="exp-company">Prasyde</div>
+        <div class="exp-role">Frontend Developer</div>
+        <div class="exp-desc">Desarrollo y maquetación de interfaces web de alta fidelidad. Integración con APIs REST y enfoque en responsive design y accesibilidad.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">HTML/CSS</span><span class="exp-tag">JavaScript</span>
+          <span class="exp-tag">REST APIs</span><span class="exp-tag">Responsive Design</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-date">2013 – 2017</div>
+      <div>
+        <div class="exp-company">Charmer Publicity + Holomex</div>
+        <div class="exp-role">Full Stack Developer</div>
+        <div class="exp-desc">Desarrollo full-stack de sitios web, sistemas internos y gestión de servidores. Implementación de lógica de negocio, bases de datos y APIs de terceros. Inicio de carrera con amplia exposición a toda la pila tecnológica.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Full Stack</span><span class="exp-tag">PHP / Laravel</span>
+          <span class="exp-tag">MySQL</span><span class="exp-tag">Server Management</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── IMPACTO ── -->
+<section id="impacto">
+  <div class="reveal">
+    <div class="section-label">Impacto Real</div>
+    <h2 class="section-title">Lo que me <span class="accent">diferencia</span></h2>
+    <p class="section-sub">No solo codifico. Resuelvo problemas de negocio con tecnología.</p>
+  </div>
+  <div class="impact-grid reveal reveal-delay-1">
+    <div class="impact-card">
+      <div class="impact-icon">🚀</div>
+      <div class="impact-title">Google Wallet Pionero</div>
+      <div class="impact-desc">Implementé Google Wallet en Aeroméxico antes de su lanzamiento oficial, navegando sin documentación pública y resolviendo el reto técnico desde cero.</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-icon">🏗️</div>
+      <div class="impact-title">Arquitecturas que escalan</div>
+      <div class="impact-desc">Diseño e implementación de microfrontends con Module Federation y Single-SPA para equipos de múltiples squads sin acoplamiento.</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-icon">⚡</div>
+      <div class="impact-title">Entregas bajo presión</div>
+      <div class="impact-desc">Track record comprobado liderando releases a producción con deadlines críticos. Más de 10 años de entregas exitosas en proyectos complejos.</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-icon">🤖</div>
+      <div class="impact-title">IA como multiplicador</div>
+      <div class="impact-desc">Uso activo de herramientas de IA para acelerar desarrollo, automatizar tareas repetitivas y mejorar calidad de código. El mismo resultado, en menos tiempo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACTO ── -->
+<section id="contacto">
+  <div class="contact-wrap">
+    <div>
+      <div class="section-label reveal">Contacto</div>
+      <h2 class="contact-big reveal reveal-delay-1">
+        ¿Tienes un<br>proyecto en<br><span class="accent">mente?</span>
+      </h2>
+      <div class="contact-channels reveal reveal-delay-2">
+        <a href="mailto:maguilarAJ@hotmail.com" class="contact-link">
+          <div class="contact-link-icon" style="background:#ede9f4">📧</div>
+          <div>
+            <div style="font-size:12px;color:var(--ink3);font-weight:600;margin-bottom:2px;">EMAIL</div>
+            maguilarAJ@hotmail.com
+          </div>
+        </a>
+        <a href="tel:+525614501807" class="contact-link">
+          <div class="contact-link-icon" style="background:#e4ebf7">📞</div>
+          <div>
+            <div style="font-size:12px;color:var(--ink3);font-weight:600;margin-bottom:2px;">TELÉFONO / WHATSAPP</div>
+            56 1450 1807 · CDMX
+          </div>
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="contact-link">
+          <div class="contact-link-icon" style="background:#e2dced">💼</div>
+          <div>
+            <div style="font-size:12px;color:var(--ink3);font-weight:600;margin-bottom:2px;">LINKEDIN</div>
+            Mauricio Aguilar Juárez
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <form class="contact-form-side reveal reveal-delay-2" id="contactForm" onsubmit="sendForm(event)">
+      <!-- Web3Forms: pega aquí tu access key obtenido en https://web3forms.com -->
+      <input type="hidden" name="access_key" value="e1d698c7-1889-443f-a4f9-3b7ca6c36c46">
+      <input type="hidden" name="subject" value="Nuevo mensaje desde el portafolio">
+      <input type="hidden" name="from_name" value="Portafolio · Mauricio Aguilar">
+      <!-- Honeypot anti-spam (debe quedar vacío) -->
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+      <div class="form-row">
+        <div class="fgroup">
+          <label>Nombre</label>
+          <input type="text" id="fname" name="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="fgroup">
+          <label>Email</label>
+          <input type="email" id="femail" name="email" placeholder="tu@email.com" required>
+        </div>
+      </div>
+      <div class="fgroup">
+        <label>Tipo de proyecto</label>
+        <select id="ftype" name="tipo_de_proyecto">
+          <option value="">— Selecciona —</option>
+          <option>App Web con React</option>
+          <option>App Móvil (React Native)</option>
+          <option>Arquitectura / Microfrontends</option>
+          <option>Consultoría Técnica</option>
+          <option>Integración con IA</option>
+          <option>Rescate de proyecto</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="fgroup">
+        <label>Cuéntame sobre tu proyecto</label>
+        <textarea id="fmsg" name="mensaje" placeholder="¿Qué necesitas construir? ¿Cuándo lo necesitas? ¿Cuál es tu presupuesto aproximado?" required></textarea>
+      </div>
+      <button type="submit" class="form-submit" id="formSubmitBtn">Enviar mensaje →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a href="tel:+525614501807" class="footer-logo">56 1450 1807<span>.</span></a>
+  <div class="footer-text">© 2025 Mauricio Aguilar Juárez · Ingeniero en TIC · CDMX</div>
+  <div class="footer-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#experiencia">Experiencia</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg">Mensaje enviado correctamente</span>
+</div>
+
+<script>
+// ── Custom cursor ──────────────────────────────────────
+const cursor     = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+(function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursorRing.style.left = rx+'px';
+  cursorRing.style.top  = ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// ── Nav scroll ─────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ── Scroll reveal ───────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Form ───────────────────────────────────────────────
+async function sendForm(event) {
+  event.preventDefault();
+  const form = document.getElementById('contactForm');
+  const btn  = document.getElementById('formSubmitBtn');
+
+  const name  = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const msg   = document.getElementById('fmsg').value.trim();
+  if (!name || !email || !msg) { showToast('Por favor completa todos los campos requeridos.', '⚠️'); return; }
+
+  const original = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  try {
+    const res  = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form),
+    });
+    const data = await res.json();
+    if (data.success) {
+      form.reset();
+      showToast('¡Mensaje enviado! Te responderé pronto.', '✅');
+    } else {
+      showToast(data.message || 'No se pudo enviar. Intenta de nuevo.', '⚠️');
+    }
+  } catch (err) {
+    showToast('Error de conexión. Intenta de nuevo más tarde.', '⚠️');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = original;
+  }
+}
+
+function showToast(msg, icon='✅') {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.querySelector('.toast-icon').textContent = icon;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ── Smooth scroll nav links ────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior:'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
